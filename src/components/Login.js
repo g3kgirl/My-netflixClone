@@ -2,25 +2,102 @@ import React from 'react'
 import Header from './Header'
 import { useState,useRef } from 'react';
 import { CheckValidData } from '../utils/Validation';
-const Login = () => {
-    const [isLoginForm,setSingupForm] = useState(true);
-    const [errorMessage,seterrorMessage] = useState();
+import {  createUserWithEmailAndPassword, signInWithEmailAndPassword,updateProfile } from "firebase/auth";
+import { auth } from '../utils/firebase';
 
+import { useDispatch } from 'react-redux';
+import { addUser } from "../utils/userSlice";
+import { USER_AVATAR } from '../utils/constants';
+
+
+
+const Login = () => {
+const [isLoginForm,setSingupForm] = useState(true);
+const [errorMessage,seterrorMessage] = useState();
+
+const dispatch = useDispatch();
+
+const name = useRef(null);
 const email = useRef(null);
 const password = useRef(null);
 
 
-
-
-   const handleToggleForm = () => {
+ const handleToggleForm = () => {
     setSingupForm(!isLoginForm);
    };
+
+
+
 const handleButonClick = ( ) => {
     const message =  CheckValidData(email.current.value,password.current.value);
-    seterrorMessage(message)
- 
+    seterrorMessage(message)  
 
+if(message) return;
+  //sing in and sinup i need to do here 
+
+if(!isLoginForm){
+
+
+
+
+  createUserWithEmailAndPassword(auth,email.current.value,password.current.value)
+  
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+updateProfile(user, {
+  displayName: name.current.value,
+   photoURL:USER_AVATAR
+}).then(() => {
+  const {uid,email,displayName,photoURL} = auth.currentUser;
+  dispatch(
+    addUser
+    ({
+      uid:uid,
+    email:email,
+    displayName:displayName,
+    photoURL:photoURL
+  }));
+
+
+
+ 
+})
+.catch((error) => {
+  
+  seterrorMessage(error.message)
+});
+
+
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+seterrorMessage(errorCode+ "" +errorMessage)
+    
+  
+  });
+// singup logic
+}else{
+//login logic
+
+
+
+signInWithEmailAndPassword(auth,email.current.value,password.current.value)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    // ...
    
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    seterrorMessage(errorCode+ "" +errorMessage)
+  });
+}
+
+
 }
   return (
     <div>
@@ -41,6 +118,7 @@ const handleButonClick = ( ) => {
 {
     !isLoginForm  &&(
 <input type="text"
+ref={name}
           placeholder="Your Full Name" 
           className="p-4 my-4 w-full bg-gray-700"  />
 
@@ -48,7 +126,7 @@ const handleButonClick = ( ) => {
 }
         <input type="text"
         ref={email}
-          placeholder="Email Assress" 
+          placeholder="Email Adress" 
           className="p-4 my-4 w-full bg-gray-700"  />
 
         <input type="password" 
