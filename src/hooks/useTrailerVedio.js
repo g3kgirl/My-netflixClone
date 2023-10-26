@@ -7,10 +7,15 @@
     const useTrailerVedio = (movieId) => {
 
       const dispatch = useDispatch();
+<<<<<<< HEAD
 const  trailesrVideos = useSelector((store) => store.movies.trailerVideo)
    
       
       
+=======
+
+   
+>>>>>>> 39d65b8706ae733ad8e65e0ba574f53365a37058
     const getMoviVideos = async ()  => {
 
     const data = await fetch(
@@ -28,8 +33,12 @@ const  trailesrVideos = useSelector((store) => store.movies.trailerVideo)
     }
     
     useEffect(()=>{
+<<<<<<< HEAD
       
       !trailesrVideos && getMoviVideos();
+=======
+    getMoviVideos();
+>>>>>>> 39d65b8706ae733ad8e65e0ba574f53365a37058
     },[])
 
 }

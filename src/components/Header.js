@@ -71,7 +71,11 @@ const handleLanguageChange = (e) => {
 
 
   return ( <>
+<<<<<<< HEAD
     <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between  ">
+=======
+    <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">
+>>>>>>> 39d65b8706ae733ad8e65e0ba574f53365a37058
       
         <img 
         className='w-44'

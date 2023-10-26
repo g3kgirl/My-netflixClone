@@ -48,6 +48,7 @@ if(!isLoginForm){
 updateProfile(user, {
   displayName: name.current.value,
    photoURL:USER_AVATAR
+<<<<<<< HEAD
    
 }).then(() => {
   const {uid,email,displayName,photoURL} = auth.currentUser;
@@ -90,6 +91,49 @@ signInWithEmailAndPassword(auth,email.current.value,password.current.value)
     const user = userCredential.user;
     // ...
    
+=======
+}).then(() => {
+  const {uid,email,displayName,photoURL} = auth.currentUser;
+  dispatch(
+    addUser
+    ({
+      uid:uid,
+    email:email,
+    displayName:displayName,
+    photoURL:photoURL
+  }));
+
+
+
+ 
+})
+.catch((error) => {
+  
+  seterrorMessage(error.message)
+});
+
+
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+seterrorMessage(errorCode+ "" +errorMessage)
+    
+  
+  });
+// singup logic
+}else{
+//login logic
+
+
+
+signInWithEmailAndPassword(auth,email.current.value,password.current.value)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    // ...
+   
+>>>>>>> 39d65b8706ae733ad8e65e0ba574f53365a37058
   })
   .catch((error) => {
     const errorCode = error.code;
